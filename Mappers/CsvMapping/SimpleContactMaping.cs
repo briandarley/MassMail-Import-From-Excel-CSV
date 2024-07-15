@@ -11,7 +11,8 @@ public class SimpleContactMapping : ClassMap<SimpleContact>
     private void MapToEntity()
     {
 
-        Map(m => m.Email).Index(0);
-        Map(m => m.DisplayName).Index(1);
+        //this is zero based index
+        Map(m => m.Email).Index(3);
+        Map(m => m.DisplayName).Index(2);
     }
 }

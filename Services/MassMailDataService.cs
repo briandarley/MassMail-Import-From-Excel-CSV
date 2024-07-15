@@ -1,6 +1,7 @@
 using System.Text;
 using Import_Data_From_Excel.Interfaces;
 using Import_Data_From_Excel.Pocos.MassMail;
+using UNC.DAL.MassMail.Domain.Models.Campaigns;
 
 namespace Import_Data_From_Excel.Services
 {
@@ -38,16 +39,30 @@ namespace Import_Data_From_Excel.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public async Task<Campaign> GetCampaign(int campaignId)
+        
+
+     
+
+        public async Task<UNC.DAL.MassMail.Domain.Models.Campaigns.CampaignModel> GetCampaign(int campaignId)
         {
             var client = _httpClientFactory.CreateClient("UAT_MASSMAIL_DATA");
             var response = client.GetAsync($"Campaigns?Id={campaignId}");
             var responseStream = response.Result.Content.ReadAsStreamAsync();
-            var pagedResponse = await System.Text.Json.JsonSerializer.DeserializeAsync<PagedResponse<Campaign>>(responseStream.Result, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var pagedResponse = await System.Text.Json.JsonSerializer.DeserializeAsync<PagedResponse<UNC.DAL.MassMail.Domain.Models.Campaigns.CampaignModel>>(responseStream.Result, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
             return pagedResponse.Entities.FirstOrDefault();
 
 
+        }
+
+        public async Task UpdateCampaign(CampaignModel campaign)
+        {
+
+            var client = _httpClientFactory.CreateClient("UAT_MASSMAIL_DATA");
+            var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(campaign), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync($"Campaigns/{campaign.Id}", content);
+            response.EnsureSuccessStatusCode();
+            
         }
     }
 }

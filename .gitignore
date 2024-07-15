@@ -21,10 +21,8 @@ bld/
 # Visual Studio files
 .vs/
 *.vscode/
-*.sln
 *.suo
 *.user
-*.csproj
 *.csproj.user
 *.sln.docstates
 

@@ -20,6 +20,8 @@ public static class DependencyInjection
         services.AddTransient<ICsvFileProcessorService, CsvFileProcessorService>();
         services.AddTransient<IMassMailDataService, MassMailDataService>();
 
+        services.AddTransient<IExcelFileProcessorService, ExcelFileProcessorService>();
+        services.AddTransient<IExcelMappingService, ExcelMappingService>();
         services.AddSingleton<IWorkerTask, WorkerTask>();
         services.AddHostedService<Worker>();
 
